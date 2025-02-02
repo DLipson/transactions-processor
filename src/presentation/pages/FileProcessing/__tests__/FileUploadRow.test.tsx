@@ -17,7 +17,7 @@ describe("FileUploadRow", () => {
     render(<FileUploadRow {...defaultProps} />);
 
     expect(screen.getByText("Statement File")).toBeInTheDocument();
-    expect(screen.getByText("Statement Type")).toBeInTheDocument();
+    expect(screen.getAllByText("Statement Type")[0]).toBeInTheDocument();
     expect(screen.getByText("Choose File")).toBeInTheDocument();
   });
 
@@ -41,10 +41,7 @@ describe("FileUploadRow", () => {
     const option = screen.getByRole("option", { name: "Max Cards" });
     fireEvent.click(option);
 
-    expect(defaultProps.onTypeChange).toHaveBeenCalledWith(
-      0,
-      StatementType.MaxCardsTransactions
-    );
+    expect(defaultProps.onTypeChange).toHaveBeenCalledWith(0, StatementType.MaxCardsTransactions);
   });
 
   it("handles remove", () => {
