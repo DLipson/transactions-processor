@@ -3,7 +3,7 @@ import { Statement } from "../../types/statements/Statement";
 import { StatementType } from "../../types/statements/StatementType";
 import { removeCommaAndParseFloat } from "../../utils";
 import { TableRow } from "../../utils/TableRow";
-import { FileReaderService } from "../FileReaderService";
+import { FileReaderService } from "../fileReaderService";
 import { RawStatementFile } from "../RawStatementFile";
 import { StatementProcessor } from "../StatementProcessor";
 import { LeumiStatementParser } from "./LeumiParsingHelpers";
@@ -20,16 +20,9 @@ export class LeumiCardsProcessor implements StatementProcessor<LeumiCardItem> {
 
     const parser = new LeumiStatementParser(content);
     const transactions = parser.parseCreditCardTransactions();
-    const items = transactions.map((transaction) =>
-      this.convertToLeumiCardItem(transaction)
-    );
+    const items = transactions.map((transaction) => this.convertToLeumiCardItem(transaction));
 
-    return new Statement(
-      crypto.randomUUID(),
-      StatementType.LeumiCardsTransactions,
-      new Date(),
-      items
-    );
+    return new Statement(crypto.randomUUID(), StatementType.LeumiCardsTransactions, new Date(), items);
   }
 
   private convertToLeumiCardItem(row: TableRow): LeumiCardItem {

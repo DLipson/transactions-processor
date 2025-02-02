@@ -5,7 +5,7 @@ import { StatementType } from "../../types/statements/StatementType";
 import { MaxCardSheetParser } from "./MaxCardSheetParser";
 import { MaxCardItemFactory } from "./MaxCardItemFactory";
 import { RawStatementFile } from "../RawStatementFile";
-import { FileReaderService } from "../FileReaderService";
+import { FileReaderService } from "../fileReaderService";
 
 export class MaxCardsProcessor implements StatementProcessor<MaxCardItem> {
   private readonly sheetParser: MaxCardSheetParser;
@@ -40,11 +40,6 @@ export class MaxCardsProcessor implements StatementProcessor<MaxCardItem> {
   }
 
   private createStatement(): Statement<MaxCardItem> {
-    return new Statement(
-      crypto.randomUUID(),
-      StatementType.MaxCardsTransactions,
-      this.date!,
-      this.items
-    );
+    return new Statement(crypto.randomUUID(), StatementType.MaxCardsTransactions, this.date!, this.items);
   }
 }

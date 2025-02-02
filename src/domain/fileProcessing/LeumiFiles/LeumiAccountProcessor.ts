@@ -3,14 +3,12 @@ import { Statement } from "../../types/statements/Statement";
 import { StatementType } from "../../types/statements/StatementType";
 import { removeCommaAndParseFloat } from "../../utils";
 import { TableRow } from "../../utils/TableRow";
-import { FileReaderService } from "../FileReaderService";
+import { FileReaderService } from "../fileReaderService";
 import { RawStatementFile } from "../RawStatementFile";
 import { StatementProcessor } from "../StatementProcessor";
 import { LeumiStatementParser } from "./LeumiParsingHelpers";
 
-export class LeumiAccountProcessor
-  implements StatementProcessor<LeumiCheckingItem>
-{
+export class LeumiAccountProcessor implements StatementProcessor<LeumiCheckingItem> {
   accountNumber: string = "";
   async process(file: RawStatementFile, reader: FileReaderService) {
     if (!file.file) {
@@ -25,16 +23,9 @@ export class LeumiAccountProcessor
     this.accountNumber = parser.extractAccountNumber();
     const transactions = parser.parseCheckingAccountTransactions();
 
-    const items = transactions.map((transaction) =>
-      this.convertToLeumiCheckingItem(transaction)
-    );
+    const items = transactions.map((transaction) => this.convertToLeumiCheckingItem(transaction));
 
-    return new Statement(
-      crypto.randomUUID(),
-      StatementType.LeumiAccountActivity,
-      new Date(),
-      items
-    );
+    return new Statement(crypto.randomUUID(), StatementType.LeumiAccountActivity, new Date(), items);
   }
 
   private convertToLeumiCheckingItem(row: TableRow): LeumiCheckingItem {

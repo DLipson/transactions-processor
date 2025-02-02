@@ -1,4 +1,4 @@
-import { FileReaderService } from "./FileReaderService";
+import { FileReaderService } from "./fileReaderService";
 
 export class BrowserFileReaderService implements FileReaderService {
   readAsText(file: File): Promise<string> {
