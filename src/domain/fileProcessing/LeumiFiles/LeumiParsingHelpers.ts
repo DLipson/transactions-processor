@@ -12,31 +12,24 @@ export class LeumiStatementParser {
 
   private parseCreditCardTable(table: DomHandlerElement): TableParseResult {
     const $table = this.$(table);
-    const headers = tableUtils.extractHeaders(
-      this.$,
-      $table.find("tr").eq(1).find("td")
-    );
+    const headers = tableUtils.extractHeaders(this.$, $table.find("tr").eq(1).find("td"));
 
     const rows = $table
       .find("tr")
       .slice(2)
       .toArray()
-      .map((tr) =>
-        tableUtils.rowToObject(this.$, this.$(tr).find("td"), headers)
-      );
+      .map((tr) => tableUtils.rowToObject(this.$, this.$(tr).find("td"), headers));
 
     return { headers, rows };
   }
 
   parseCreditCardTransactions(): TableRow[] {
     const tables = this.$('table[style*="border: 1px solid #808080"]');
-    if (!tables.length || tables.length > 2) {
-      throw new Error(`Invalid number of tables: ${tables.length}`);
+    if (!tables.length) {
+      throw new Error(`No credit card tables found in statement`);
     }
 
-    const allRows = [...tables].flatMap(
-      (table) => this.parseCreditCardTable(table).rows
-    );
+    const allRows = [...tables].flatMap((table) => this.parseCreditCardTable(table).rows);
 
     return allRows.filter((row) => row.שם_בית_העסק);
   }
@@ -47,10 +40,7 @@ export class LeumiStatementParser {
       throw new Error("No header row found in checking account statement");
     }
 
-    const headers = tableUtils.extractHeaders(
-      this.$,
-      headerRow.find("td.xlHeader")
-    );
+    const headers = tableUtils.extractHeaders(this.$, headerRow.find("td.xlHeader"));
 
     const rows: TableRow[] = [];
     headerRow.nextAll("tr").each((_, row) => {
