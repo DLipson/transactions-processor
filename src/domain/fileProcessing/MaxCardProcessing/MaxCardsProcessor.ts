@@ -23,7 +23,7 @@ export class MaxCardsProcessor implements StatementProcessor<MaxCardItem> {
     if (!file.file) {
       throw new Error("No file for Max cards statement");
     }
-    const content = reader.readAsArrayBuffer(file.file!);
+    const content = await reader.readAsArrayBuffer(file.file!);
     if (!(content instanceof ArrayBuffer) || !content.byteLength) {
       throw new Error("Invalid content for Max cards statement");
     }
