@@ -31,7 +31,7 @@ export class MaxCardSheetParser {
   }
 
   private findTotalsRowIndex(sheet: string[][]): number {
-    return sheet.findIndex((row) => row[0] === "total");
+    return sheet.findIndex((row) => row[0] === "סך הכל");
   }
 
   private extractTransactions(
