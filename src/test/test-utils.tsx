@@ -11,5 +11,5 @@ function render(ui: React.ReactElement, options = {}) {
   });
 }
 
-export { screen, fireEvent, waitFor } from "@testing-library/react";
+export { screen, fireEvent, waitFor } from "@testing-library/dom";
 export { render };
